@@ -1,0 +1,17 @@
+<div class="col-3">
+    <div class="card">
+        <img class="card-img-top" src="@item.ImageUrl" alt="..." />
+        <div class="card-body">
+            <h5 class="card-title">@item.Name</h5>
+            <p class="card-text">@item.Description</p>
+            <p class="card-text">@item.Price</p>
+            <button class="btn btn-primary">
+                Add to Cart
+            </button>
+        </div>
+    </div>
+</div>
+@code {
+    [Parameter]
+    public ProductVM item { get; set; } = new ProductVM();
+}

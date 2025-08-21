@@ -1,0 +1,21 @@
+@page "/product-list"
+@*  ds nhiều sản phẩm *@
+
+<div class="row">
+@foreach(ProductVM item in products){
+
+    <ProductCart item="@item"/>
+}
+
+    
+</div>
+
+@code{
+   
+    List<ProductVM> products = new List<ProductVM>
+    {
+        new ProductVM { Name = "Product 1", Description = "Description 1", Price = 10.99m, ImageUrl = "https://via.placeholder.com/150" },
+        new ProductVM { Name = "Product 2", Description = "Description 2", Price = 12.99m, ImageUrl = "https://via.placeholder.com/150" },
+        new ProductVM { Name = "Product 3", Description = "Description 3", Price = 15.99m, ImageUrl = "https://via.placeholder.com/150" }
+    };
+}
