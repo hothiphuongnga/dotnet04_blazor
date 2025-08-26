@@ -1,11 +1,13 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Components.Web
+
 @namespace blazor2.Pages
+
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
     Layout = null;
 }
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,8 +16,12 @@
     <title>blazor2</title>
     <base href="~/" />
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    @* link bắt đầu bằng css mà không phải wwwroot *@
     <link href="css/site.css" rel="stylesheet" />
-    
+    @* blazỏ2.styles.css là file css được biên dịch ra từ css component , cần gắn link này thì mới áp dụng css ở file component được . VD Login.razor.css *@
+    <link rel="stylesheet" href="blazor2.styles.css">
+    <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+    @* để đổi tên title cho từng route riêng *@
 </head>
 <body>
     <app>
