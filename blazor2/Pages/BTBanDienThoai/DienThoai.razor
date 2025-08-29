@@ -1,0 +1,23 @@
+<div class="card text-start" style="height: 100%; justify-content: space-between;">
+    <img class="card-img-top" style="height:70%" src="@phoneItem.ImageUrl" alt="Title" />
+    <div class="card-body">
+        <h4 class="card-title">@phoneItem.Name</h4>
+        <p class="card-text">@phoneItem.Price</p>
+    </div>
+    <div class="card-footer text-center">
+        <button type="button" class="btn btn-primary">Mua ngay</button>
+        <button type="button" class="btn btn-secondary" @onclick="XemChiTietDienThoai">Xem chi tiết</button>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public PhoneVM phoneItem { get; set; }
+    [Parameter]
+    public EventCallback<PhoneVM> XemChiTiet { get; set; }
+    private void XemChiTietDienThoai()
+    {
+        XemChiTiet.InvokeAsync(phoneItem);
+    }
+}

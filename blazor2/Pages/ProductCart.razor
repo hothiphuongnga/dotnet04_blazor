@@ -5,7 +5,8 @@
             <h5 class="card-title">@item.Name</h5>
             <p class="card-text">@item.Description</p>
             <p class="card-text">@item.Price</p>
-            <button class="btn btn-primary">
+            @*  khi bấm nút thì ds cart thay đổi *@
+            <button class="btn btn-primary"  @onclick="AddSP">
                 Add to Cart
             </button>
         </div>
@@ -14,4 +15,18 @@
 @code {
     [Parameter]
     public ProductVM item { get; set; } = new ProductVM();
+
+    [Parameter]
+    public EventCallback<ProductVM> AddToCartt { get; set; }
+
+    void AddSP()
+    {
+     AddToCartt.InvokeAsync(item); // gọi hàm AddToCart trong ProductList.razor
+    }
 }
+
+@* 
+COMPONENT Con nhận vào parameter là function  từ cha và gọi lại khi thực hiện sự kiện onclick 
+- EventCallback<T> : kiểu dữ liệu function có tham số truyền vào là T
+
+ *@

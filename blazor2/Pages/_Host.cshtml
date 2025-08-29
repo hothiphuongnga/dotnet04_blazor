@@ -10,12 +10,18 @@
 }
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>blazor2</title>
     <base href="~/" />
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    @* <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" /> *@
+
+    @* BS đời mới  *@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css"
+        integrity="sha512-2bBQCjcnw658Lho4nlXJcc6WkV/UxpE/sAokbXPxQNGqmNdQrWqtw26Ns9kFF/yG792pKR1Sx8/Y1Lf1XN4GKA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     @* link bắt đầu bằng css mà không phải wwwroot *@
     <link href="css/site.css" rel="stylesheet" />
     @* blazỏ2.styles.css là file css được biên dịch ra từ css component , cần gắn link này thì mới áp dụng css ở file component được . VD Login.razor.css *@
@@ -23,6 +29,7 @@
     <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
     @* để đổi tên title cho từng route riêng *@
 </head>
+
 <body>
     <app>
         <component type="typeof(App)" render-mode="ServerPrerendered" />
@@ -38,8 +45,11 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
-
-
+    @* JS BS *@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/js/bootstrap.min.js"
+        integrity="sha512-nKXmKvJyiGQy343jatQlzDprflyB5c+tKCzGP3Uq67v+lmzfnZUi/ZT+fc6ITZfSC5HhaBKUIvr/nTLCV+7F+Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="_framework/blazor.server.js"></script>
 </body>
+
 </html>

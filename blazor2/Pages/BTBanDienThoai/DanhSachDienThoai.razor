@@ -1,0 +1,43 @@
+@page "/ban-dien-thoai"
+
+<div class="container">
+    <h2>Danh Sach Dien Thoai</h2>
+    <div class="row">
+        @foreach(PhoneVM item in ds)
+        {
+            <div class="col-3">
+                <DienThoai phoneItem="@item" XemChiTiet="@ChonDienThoai"/>
+            </div>
+        }
+
+    </div>
+
+
+    @* chi tiết 1 cái dc chon *@
+    @if(dtDuocChon != null){
+        <div class="col-5">
+            <h3>Chi tiết điện thoại</h3>
+            <p>Tên: @dtDuocChon.Name</p>
+            <p>Giá: @dtDuocChon.Price</p>
+            <img src="@dtDuocChon.ImageUrl" alt="@dtDuocChon.Name" style="width: 100px;" />
+        </div>
+    }
+
+</div>
+
+
+@code{
+    List<PhoneVM> ds = new List<PhoneVM>
+    {
+        new PhoneVM { Id = 1, Name = "Iphone 14 Pro Max", Price = 30000000 ,ImageUrl="products/sp_iphoneX.png"},
+        new PhoneVM { Id = 2, Name = "Samsung S23 Ultra", Price = 25000000,ImageUrl="products/sp_note7.png" },
+        new PhoneVM { Id = 3, Name = "Xiaomi 13 Pro", Price = 20000000,ImageUrl="products/sp_vivo850.png" },
+        new PhoneVM { Id = 4, Name = "Oppo Find X5 Pro", Price = 22000000,ImageUrl="products/vsphone.jpg" }
+    };
+
+    PhoneVM dtDuocChon { get; set; }
+    void ChonDienThoai(PhoneVM dt)
+    {
+        dtDuocChon = dt;
+    }
+}

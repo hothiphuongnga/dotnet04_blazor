@@ -5,7 +5,11 @@
     <div class="row">
         <div class="col-6">
             <h3>Register Form</h3>
-            <EditForm Model="@user" OnValidSubmit="HandleSubmit">
+            <EditForm Model="@user" OnValidSubmit="HandleSubmit" OnInvalidSubmit="HandleError">
+                @* Validsubmit :  khi thoả hết các diều kiện thì gọi hàm 
+                Invalidsubmit : khi không thoả hết các điều kiện thì gọi hàm
+                *@
+
                 <DataAnnotationsValidator/>
                 <ValidationSummary />
                 <div class="mb-3">
@@ -90,6 +94,11 @@
         Console.WriteLine(@$"Username: {user.Username}, Email: {user.Email}, Password: {user.Password} " );
     }
 
+    @* Hàm lỗi *@
+    private void HandleError(){
+        
+        Console.WriteLine("Lỗi rồi bạn ơi");
+    }
     @* đổi giới tính *@
     private void ChangeGender(bool gender)
     {

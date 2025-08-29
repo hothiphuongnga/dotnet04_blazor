@@ -1,0 +1,13 @@
+@page "/ref"
+<div class="container d-flex justify-content-center flex-column align-items-center">
+    <h3>Component tham chiếu</h3>
+    <RefChild @ref="refChild"/>
+    @* @ref="refChild"  : tham chiếu đến thằng con*@
+    <button class="btn btn-primary" @onclick="TangCha" >Tăng</button>
+</div>
+@code{
+    RefChild refChild; // khai báo biến tham chiếu đến component con
+    void TangCha(){
+        refChild.Tang(); // cha gọi phương thức của con thông qua biến tham chiếu
+    }
+}

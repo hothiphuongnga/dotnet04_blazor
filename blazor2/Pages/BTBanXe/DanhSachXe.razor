@@ -1,0 +1,56 @@
+@page "/ban-xe"
+@* BAI TAP BAN XE OTO *@
+
+<div class="container">
+
+
+   <div class="row">
+     @foreach(CarVM item in ds){
+        <div class='col-3'>
+            <Xe carItem="@item" traiNghiem="@ChonXe"/>
+        </div>
+    }
+   </div>
+
+
+<!-- Modal -->
+@{
+  if(XeDuocChon != null){
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+         @* hình của xe tương ứng *@
+            <img src="@XeDuocChon.ImageUrl" alt="@XeDuocChon?.Name" style="width: 100%;" />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+}
+}
+</div>
+
+@code{
+    List<CarVM> ds = new List<CarVM>
+    {
+        new CarVM { Id = 1, Name = "Toyota",  Price = 500000000 ,ImageUrl="products/black-car.jpg"},
+        new CarVM { Id = 2, Name = "Honda", Price = 600000000,ImageUrl="products/red-car.jpg" },
+        new CarVM { Id = 3, Name = "Ford",  Price = 700000000,ImageUrl="products/silver-car.jpg" },
+        new CarVM { Id = 4, Name = "Mazda", Price = 800000000,ImageUrl="products/steel-car.jpg" }
+    };
+
+    public CarVM XeDuocChon { get; set;}
+
+    public void ChonXe(CarVM xe)
+    {
+        XeDuocChon = xe;
+    }
+}

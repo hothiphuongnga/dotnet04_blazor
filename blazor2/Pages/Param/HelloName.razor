@@ -1,0 +1,13 @@
+@ChildContent
+<div>
+    @*  hiển thị tên đường truyền từ cha xuống *@
+    @fullName
+</div>
+
+@code {
+    [Parameter]
+    public string fullName { get; set; }
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+    
+}

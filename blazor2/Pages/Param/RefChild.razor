@@ -1,0 +1,16 @@
+<div>
+    <h1>Số hiện tại là : @Number</h1>
+
+</div>
+@code {
+    public int Number { get; set; } = 0;
+    public void Tang()
+    {
+        Console.WriteLine("Tăng số");
+        Console.WriteLine("Số hiện tại là :  " + Number);
+
+        Number++;
+        StateHasChanged(); // Cập nhật lại giao diện
+        // vì khi gọi hàm con từ cha qua @ref  , blazor khong biết có thay đổi giá trị trong component con nên cần gọi hàm này để cập nhật lại giao diện
+    }
+}
