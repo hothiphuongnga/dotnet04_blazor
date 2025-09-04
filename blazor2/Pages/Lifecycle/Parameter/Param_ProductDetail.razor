@@ -1,0 +1,56 @@
+<div class="">
+    <p>@prod.Id</p>
+    <p>@prod.Name</p>
+    <p>@prod.Price</p>
+
+</div>
+
+@code {
+    [Parameter]
+    public ProductApiVM prod { get; set; } = new ProductApiVM();
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string content { get; set; } = "";
+
+
+
+    // chạy sau khi component nhận tham số từ component cha
+
+    protected override void OnParametersSet()
+    {
+        if (prod != null)
+        {
+            Console.WriteLine("Hàm chạy sau khi nhận tham số từ component cha");
+            Console.WriteLine(prod.Price);
+            //nếu giá tùe 1-> 200 discount 10%
+            // nếu giá từ 201->500 discount 20%
+        }
+        Console.WriteLine(content);
+    }
+    // chạy trước khi component nhận tham số từ component cha
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        Console.WriteLine("Hàm chạy trước khi nhận tham số từ component cha");
+        //ParameterView là tất các tham số của thằng này nhận được
+        // lấy ra tham số prod
+        var pro_param = parameters.GetValueOrDefault<ProductApiVM>("prod");
+        if (pro_param != null)
+        {
+            // lấy ra giá và update lại giá
+            Int128 oldPrice = Int128.Parse(pro_param.Price) / 2;
+            pro_param.Price = oldPrice.ToString();
+            // gọi hàm base để vòng đời component được chạy tiếp
+        }
+        await base.SetParametersAsync(parameters);
+
+    }
+
+}
+
+@* 
+- SetParametersAsync : chạy trước khi component nhận tham số từ component cha
+    Can thiệp để thay đổi tham số nhận vào
+- OnParametersSet : chạy sau khi component nhận tham số từ component cha
+    Không can thiệp được tham số nhận vào, xử lý logic sau khi nhận tham số
+ *@

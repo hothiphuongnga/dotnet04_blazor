@@ -28,6 +28,10 @@ namespace blazor2
             services.AddRazorPages();
             services.AddServerSideBlazor();
             // services.AddSingleton<WeatherForecastService>();
+
+
+            // DI httpclient
+            services.AddHttpClient();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,8 +47,8 @@ namespace blazor2
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
-            app.UseHttpsRedirection();
+// tuwj ddoongj chuyển về https mmặc dù gọi http 
+            // app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
