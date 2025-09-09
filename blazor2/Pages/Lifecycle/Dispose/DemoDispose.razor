@@ -1,0 +1,38 @@
+@page "/demo-dispose"
+@using System.Threading
+@implements IDisposable
+
+<div class="container">
+    <h1>Demo dispose  -  Dọn dẹp huỷ component</h1>
+    <p>Counter : @counter</p>
+</div>
+
+@code{
+    // task : kiểu dữ liêu bất đồng bộ
+    // Thread : 1 luồng chạy ngầm
+    private int counter = 0;
+    Timer timer;
+    // chạy lần đầu khi component dc khởi tạo
+    protected override void OnInitialized()
+    {
+        timer = new Timer((state)=>{
+            Console.WriteLine("Timer đang chạy ngầm " + counter);
+            counter++;
+            InvokeAsync(StateHasChanged); // gọi hàm cập nhật giao diện
+        },null,0,1000);  
+    }
+    // hàm callback 
+    // TS thứ nhất là 1 hàn
+    // TS thứ 2 là trạng thái , không truyền null
+    // TS thứ 3 là thời gian delay lần đầu
+    // TS thứ 4 là thời gian lặp lại
+
+// Dọn dẹp  huỷ component
+// chạy khi component bị huỷ
+    public void Dispose()
+    {
+        Console.WriteLine("Hàm Dispose - Dọn dẹp component trước khi huỷ");
+      timer?.Dispose();
+      
+    }
+ }

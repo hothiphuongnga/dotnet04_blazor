@@ -1,0 +1,54 @@
+@page "/on-tap-danhsachsanpham/{id}"
+@inject HttpClient _http
+@using System.Net.Http.Json
+@implements IDisposable
+<div class="container">
+    <nav class="breadcrumb">
+        <a class="breadcrumb-item" href="on-tap-danhsachsanpham">Product</a>
+        <span class="breadcrumb-item active" aria-current="page">@id</span>
+    </nav>
+
+    <h3>Chi tiết sản phẩm</h3>
+    @if (prod != null)
+    {
+        <div class="card text-white bg-primary " style ="width: 50%;">
+            <img class="card-img-top" src="@prod.Img" alt="Title" />
+            <div class="card-body">
+                <h4 class="card-title">@prod.Name</h4>
+                <p class="card-text">@prod.Price</p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <h3>Loading...</h3>
+    }
+
+</div>
+
+@code {
+    [Parameter]
+    public string id { get; set; }
+
+    ProductApiVM prod;
+
+    // gọi hàm ở đâu , khi nào gọi
+    private async Task LoadProductById()
+    {
+        prod = await _http.GetFromJsonAsync<ProductApiVM>($"https://svcy.myclass.vn/api/ProductApi/get/{id}");
+    }
+    // init
+    protected override async Task OnParametersSetAsync()
+    {
+        Console.WriteLine($"\nid = {id}");
+        await LoadProductById();
+
+    }
+
+    // lấy thong tin sp bằng api https://svcy.myclass.vn/api/ProductApi/get/ID01, với ID01 sẽ là id
+
+    //hàm dispose
+    public void Dispose(){
+        Console.WriteLine("Hàm dispose - hàm giải phóng tài nguyên");
+    }
+}

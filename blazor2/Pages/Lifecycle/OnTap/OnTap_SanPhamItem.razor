@@ -1,0 +1,19 @@
+<div class="col-3">
+    <div class="card text-start">
+        <img class="card-img-top" src="@prod.Img" alt="Title" />
+        <div class="card-body">
+            <h4 class="card-title">@prod.Name</h4>
+            <p title="@prod.Description" class="card-text">@(prod.Description.Length > 50 ?
+                                prod.Description.Substring(0, 50) + "..." : prod.Description )</p>
+        </div>
+        <div class="card-footer justify-content-between d-flex">
+            <a href = "/on-tap-danhsachsanpham/@prod.Id" class="btn btn-success">Xem</a>
+            <button class="btn btn-primary"  >@prod.Price</button>
+
+        </div>
+    </div>
+</div>
+@code {
+    [Parameter]
+    public ProductApiVM prod { get; set; }
+}

@@ -1,0 +1,75 @@
+@page "/demo-render"
+<div class="container">
+    <h1>demo render & Hậu render</h1>
+    <button class="btn btn-primary" @onclick="ChangeTitle">Change Title</button>
+    <button class="btn btn-secondary" @onclick="ChangeTitle2">change Title 2</button>
+    <p>@title</p>
+    <p>Param từ url : @content</p>
+</div>
+
+
+@code {
+
+    public string title { get; set; } = "Hello DOTNET 04";
+    public string oldTitle = "";
+    // param url router
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string content { get; set; } = "";
+
+    public void ChangeTitle()
+    {
+        title = "Xin chào DOTNET 04 - 09/2025";
+    }
+    public void ChangeTitle2()
+    {
+        title = "Hello DOTNET 04";
+    }
+
+    // onparametersset
+    // chạy lần đầu và sau khi param thay đổi
+    protected override void OnParametersSet()
+    {
+        Console.WriteLine("\nHàm chạy sau khi nhận tham số từ url");
+        Console.WriteLine(content + "\n");
+    }
+
+    // ShouldRender : có nên render lại hay không
+    // hàm này sẽ KHÔNG chạy vào lần đầu
+
+    protected override bool ShouldRender()
+    {
+        // kieerm tra neeus title mới giống title cũ thì không render lại
+        if (title == oldTitle)
+        {
+            return false; // không render lại
+        }
+        Console.WriteLine("ShouldRender - Hàm kiểm tra có nên render lại hay không");
+        return true; // có render lại
+                     //về false thì không render lại
+    }
+    // hàm chạy sau khi render xong
+    protected override void OnAfterRender(bool firstRender)
+    {
+        // tương tác với giao diện , thông qua js 
+        // firstRender: true nếu là lần đầu render
+        //
+        @* title += " .";
+        StateHasChanged(); *@
+
+        // gán giá trị cho old title sau khi render xong
+        oldTitle = title;
+        Console.WriteLine("\nOnAfterRender - Hàm chạy sau khi render xong");
+        if (firstRender)
+        {
+            Console.WriteLine("Lần đầu render\n");
+        }
+        else
+        {
+            Console.WriteLine("Lần tiếp theo render\n");
+        }
+
+
+    }
+
+}

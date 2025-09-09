@@ -1,0 +1,45 @@
+@page "/on-tap-danhsachsanpham"
+
+@inject HttpClient _http
+@using System.Net.Http.Json
+@* 
+ giao diện hiênt thị ds sản phẩm
+    // mỗi sp sẽ có nút mua hàng 
+
+ // code :
+    gọi api lấy ds sp 
+    https://svcy.myclass.vn/api/ProductApi/getall
+
+
+
+    component màu đỏ là DanhSachSanPham
+    màu tím là SanPhamItem
+
+
+
+
+ *@
+
+
+<div class="container">
+
+    <h3>Danh sách sản phẩm</h3>
+    <div class="row">
+            @*  duyệt mảng ds sp để render ra  *@
+            @foreach (var item in ls)
+            {
+                
+                <OnTap_SanPhamItem prod="@item" />
+          }
+
+    </div>
+</div>
+
+@code {
+    List<ProductApiVM> ls = new List<ProductApiVM>();
+
+        // gọi hàm innit
+    protected async override Task OnInitializedAsync(){
+        ls = await _http.GetFromJsonAsync<List<ProductApiVM>>("https://svcy.myclass.vn/api/ProductApi/getall");
+    }
+}

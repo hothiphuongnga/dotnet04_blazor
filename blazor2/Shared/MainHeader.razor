@@ -32,9 +32,45 @@
             <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link" href="/ref">REF
             </NavLink>
         </li>
-        <li class="nav-item">
-            <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link" href="/on-init?content=hello">Lifecycle- on init
-            </NavLink>
+
+        <li class="nav-link dropdown">
+            <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Dropdown
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                <li class="nav-item">
+                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link"
+                        href="/on-init?content=hello">
+                        Lifecycle- on init
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link" href="/demo-render?content=hi">
+                        Lifecycle-
+                        render
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link" href="/demo-render?content=hello">
+                        Lifecycle-
+                        render v2
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link" href="/demo-dispose">
+                        Lifecycle-
+                        dispose
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link"
+                        href="/on-tap-danhsachsanpham">
+                        Lifecycle-
+                        on tap
+                    </NavLink>
+                </li>
+            </ul>
         </li>
 
     </ul>
