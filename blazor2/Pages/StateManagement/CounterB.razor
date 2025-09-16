@@ -1,0 +1,45 @@
+@page "/couter_b"
+@inject CounterService _counterService
+@implements IDisposable
+
+
+<div style="display:static">
+    <h3>Counter B</h3>
+<p>Current count: @_counterService.CurrentCounter</p>
+<button class="btn btn-primary" @onclick="IncrementCount">Tăng</button>
+<button class = "btn btn-secondary" @onclick="GiamCount"> Giảm</button>
+</div>
+@code {
+    protected override void OnInitialized()
+    {
+        // đăng ký sự kiện OnChange của CounterService
+        // lắng nghe thông báo khi giá trị thay đổi
+        // += : đại diện đăng ký lắng nghe service
+        _counterService.OnChange += HadChangedState;
+    }
+    // HadChangedState hàm trung gian để gọi StateHasChanged, để hạn chế lỗi nhầm thread
+    public async void HadChangedState()
+    {
+        await InvokeAsync(() => StateHasChanged());
+    }
+
+
+    // Biến để lưu trữ giá trị hiện tại của bộ đếm
+   // gọi hàm TangCounter của CounterService
+    void IncrementCount()
+    {
+        _counterService.TangCouter();
+
+    }
+    void GiamCount()
+    {
+        _counterService.GiamCounter();
+    }
+
+    public void Dispose()
+    {
+        // huỷ đăng ký sự kiện OnChange khi component bị huỷ
+        _counterService.OnChange -= HadChangedState;
+    }
+
+}

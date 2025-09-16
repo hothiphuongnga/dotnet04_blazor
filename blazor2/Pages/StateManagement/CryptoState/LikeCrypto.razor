@@ -1,0 +1,39 @@
+@inject CryptoService _cryptoService
+<div>
+@*  show ds crypo *@
+
+    <h3>Danh Sách Yêu Thích</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Hình Ảnh</th>
+                <th>Tên</th>
+                <th>Giá Hiện Tại</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in _cryptoService.MyCryptos)
+            {
+                <tr>
+                    <td><img src="@item.Image" width="30" /></td>
+                    <td>@item.Name</td>
+                    <td>@item.Current_price</td>
+                    <td><button class="btn btn-danger" @onclick="()=>_cryptoService.RemoveFromMyCryptos(item)">Bỏ Thích</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@code{
+
+    protected override void OnInitialized()
+    {
+        // đăng ký sự kiện thay đổi trạng thái
+        _cryptoService.OnChange += HadChangedState;
+    }
+    private async void HadChangedState()
+    {
+        await InvokeAsync(() => StateHasChanged());
+    }
+}

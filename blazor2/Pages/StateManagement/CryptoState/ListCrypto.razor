@@ -1,0 +1,69 @@
+@using Microsoft.AspNetCore.WebUtilities
+@using System.Net.Http.Json
+@inject CryptoService _cryptoService
+@inject HttpClient _httpClient
+<div class="">
+    <h3>Danh sách Crypto</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Ảnh</th>
+                <th>Tên</th>
+                <th>Giá Hiện Tại (USD)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var crypto in cryptos)
+            {
+                <tr>
+                    <td><img src="@crypto.Image" alt="@crypto.Name" width="32" height="32" /></td>
+                    <td>@crypto.Name</td>
+                    <td>@crypto.Current_price</td>
+                    <td><button class="btn btn-success" @onclick="()=> _cryptoService.AddToMyCryptos(crypto)" >Like</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    List<CryptoData> cryptos = new List<CryptoData>();
+    protected override async Task OnInitializedAsync()
+    {
+        cryptos = await GetCryptoDataAsync();
+    }
+
+   public async Task<List<CryptoData>> GetCryptoDataAsync()
+    {
+        // URL gốc của API
+        var url = "https://api.coingecko.com/api/v3/coins/markets";
+
+        // Các tham số query cần thiết cho API
+        var parameters = new Dictionary<string, string>
+        {
+            { "vs_currency", "usd" },
+            { "order", "market_cap_desc" },
+            { "per_page", "50" },
+            { "page", "1" },
+            { "sparkline", "false" }
+        };
+
+        // Tạo URI hoàn chỉnh với query string
+        var uri = QueryHelpers.AddQueryString(url, parameters);
+
+        // Tạo yêu cầu HTTP và thêm header User-Agent
+        var request = new HttpRequestMessage(HttpMethod.Get, uri);
+        request.Headers.Add("User-Agent", "YourAppName/1.0"); // Thay YourAppName bằng tên app của bạn
+
+        // Gửi yêu cầu và chờ phản hồi
+        var response = await _httpClient.SendAsync(request);
+
+        // Đảm bảo phản hồi thành công, nếu không sẽ ném ngoại lệ
+        response.EnsureSuccessStatusCode();
+
+        // Đọc và parse JSON trả về thành danh sách CryptoData
+        return await response.Content.ReadFromJsonAsync<List<CryptoData>>();
+    }
+    // get data từ json
+}

@@ -32,6 +32,16 @@ namespace blazor2
 
             // DI httpclient
             services.AddHttpClient();
+
+
+            // Đăng ký dịch vụ CounterService với vòng đời 
+            // Singleton: Dịch vụ sẽ được tạo một lần và sử dụng chung trong toàn bộ ứng dụng.
+            services.AddSingleton<CounterService>();
+            // đăng ký dịch vụ BurgerService
+            services.AddSingleton<BurgerService>();
+            // đăng ký dịch vụ CryptoService
+            services.AddSingleton<CryptoService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

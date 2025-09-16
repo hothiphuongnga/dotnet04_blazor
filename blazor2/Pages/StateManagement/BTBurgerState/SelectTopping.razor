@@ -1,0 +1,34 @@
+@*  ở đây cũng sẽ lấy ra ds topping hiển thị dạng table *@
+@inject BurgerService _burgerService
+<h3>Chọn Topping</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Topping</th>
+            <th>Giá</th>
+            <th>Số Lượng</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in _burgerService.Toppings)
+        {
+            <tr>
+                <td>@item.Ten</td>
+                <td>
+                    @item.Gia
+                </td>
+                <td>
+                <button class="btn btn-warning"  @onclick="()=>_burgerService.ThayDoiSoLuong(item.Ten,-1)">-</button>
+                @item.SoLuong 
+                <button class="btn btn-success" @onclick="()=>_burgerService.ThayDoiSoLuong(item.Ten,1)">+</button></td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+<p>Tổng tiền: @_burgerService.TongTien()</p>
+@code{
+    // khi bấm + hoặc - thì gọi hàm trong service để tăng giảm số lượng
+    // không cần viết hàm nhập thông báo vì chỉ có ở component mới thay đổi giá trị state
+}
