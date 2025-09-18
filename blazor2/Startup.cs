@@ -33,6 +33,15 @@ namespace blazor2
             // DI httpclient
             services.AddHttpClient();
 
+            services.AddHttpClient("ShoeShopApi", client=>
+            {
+                client.BaseAddress = new Uri("https://apistore.cybersoft.edu.vn/");
+            });
+
+            services.AddHttpClient("MovieApi", client=>
+            {
+                client.BaseAddress = new Uri("https://movienew.cybersoft.edu.vn/");
+            });
 
             // Đăng ký dịch vụ CounterService với vòng đời 
             // Singleton: Dịch vụ sẽ được tạo một lần và sử dụng chung trong toàn bộ ứng dụng.
@@ -41,6 +50,9 @@ namespace blazor2
             services.AddSingleton<BurgerService>();
             // đăng ký dịch vụ CryptoService
             services.AddSingleton<CryptoService>();
+
+            // đăng ký dịch vụ ShoeShopStateService
+            services.AddSingleton<ShoeShopStateService>();
 
         }
 

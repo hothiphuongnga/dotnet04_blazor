@@ -1,0 +1,110 @@
+@page "/shoeshop/{id:int}"
+
+@inject ShoeShopStateService _shoeShopStateService
+
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/shoeshop">Shoe shop</a></li>
+            <li class="breadcrumb-item"><span>@_shoeShopStateService.productDetail.name</span></li>
+        </ol>
+    </nav>
+    <h3 class="mb-4">Shoe Shop Detail</h3>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <div class="card shadow-lg border-0 rounded-4">
+                    <img src="@_shoeShopStateService.productDetail.image" class="card-img-top p-3 rounded-4"
+                        alt="@_shoeShopStateService.productDetail.name"
+                        style="object-fit:contain; height:260px; background:#f8f9fa;" />
+                    <div class="d-flex justify-content-between ">
+                        @foreach (string rotate in _shoeShopStateService.productDetail.detaildetailedImages)
+                        {
+                            <div class="" style="border: 1px solid #dee2e6; border-radius:8px; margin:8px;">
+                                <img src="@_shoeShopStateService.productDetail.image" class="m-2 rounded-4" 
+                                    alt="@_shoeShopStateService.productDetail.name"
+                                    style="object-fit:contain; height:60px; width:60px;  transform: @rotate" />
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-8">
+                <div class="mt-4">
+                    <h6 class="fw-bold">Description</h6>
+                    <p class="text-secondary" style="font-size:0.98rem;">
+                        @_shoeShopStateService.productDetail.description</p>
+                    <div class="card-body">
+                        <div class="mb-2">
+                            @if (_shoeShopStateService.productDetail.categories != null)
+                            {
+                                foreach (var cat in _shoeShopStateService.productDetail.categories)
+                                {
+                                    <span class="badge bg-info text-dark me-1">@cat.category</span>
+                                }
+                            }
+                        </div>
+                        <h4 class="card-title fw-bold text-primary">@_shoeShopStateService.productDetail.name</h4>
+                        <h5 class="text-danger mb-2">$@_shoeShopStateService.productDetail.price</h5>
+                        <p class="card-text text-muted">@_shoeShopStateService.productDetail.shortDescription</p>
+                        <div class="mb-3">
+                            <span class="fw-semibold">Available Sizes:</span>
+                            <div class="d-flex flex-wrap gap-2 mt-2">
+                                @foreach (var size in _shoeShopStateService.productDetail.size)
+                                {
+                                    <button class="btn btn-outline-secondary">@size</button>
+                                }
+                            </div>
+                        </div>
+                        <button class="btn btn-success w-100 py-2 fw-bold">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        @* Related Products Section *@
+        <div class="row mt-5">
+            <div class="col-12">
+                <h5 class="fw-bold mb-3">Related Products</h5>
+            </div>
+            @if (_shoeShopStateService.productDetail.relatedProducts != null)
+            {
+                @foreach (var related in _shoeShopStateService.productDetail.relatedProducts)
+                {
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <img src="@related.image" class="card-img-top p-2" alt="@related.name"
+                                style="object-fit:contain; height:140px; background:#f8f9fa;" />
+                            <div class="card-body d-flex flex-column">
+                                <h6 class="card-title fw-semibold">@related.name</h6>
+                                <div class="text-danger mb-2">$@related.price</div>
+                                <p class="card-text small text-muted">@related.shortDescription</p>
+                                <a class="btn btn-outline-primary mt-auto w-100" href="/shoeshop/@related.id">View Detail</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12 text-muted">No related products found.</div>
+            }
+        </div>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+
+    //goij api laasy sp chi tiết khi param thay đổi
+    protected override async Task OnParametersSetAsync()
+    {
+        await _shoeShopStateService.GetProductById(id);
+    }
+
+
+}
