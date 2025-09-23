@@ -73,11 +73,33 @@ public class ShoeShopStateService
     }
 
 
+    // UPDATE
+     public async Task<string> UpdateShoe(AddShoeApiVM newShoe)
+    {
+        var response = await _http.PutAsJsonAsync("api/Product/updateProduct", newShoe);
+        if (response.IsSuccessStatusCode)
+        {
+            // Nếu thêm mới thành công, bạn có thể làm gì đó ở đây
+            // lấy nội dung từ phản hồi của api
+            var responseContent = await response.Content.ReadFromJsonAsync<ResponseEntity<string>>();
+            Console.WriteLine("cập nhật thành công: " + responseContent.content);
+            return responseContent.content;
+        }
+        else
+        {
+            // Xử lý lỗi nếu cần
+            Console.WriteLine("Lỗi khi cập nhật: " + response.ReasonPhrase);
+            return "Lỗi khi cập nhật: " + response.ReasonPhrase;
+        }
+
+    }
+
+
     // DELETE
     public async Task<string> DeleteShoe(int id)
     {
         var response = await _http.DeleteAsync($"api/Product/{id}");
-        if(response.IsSuccessStatusCode)
+        if (response.IsSuccessStatusCode)
         {
 
             // getall lại

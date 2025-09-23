@@ -25,6 +25,9 @@ namespace blazor2
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            // thên singalR
+            services.AddSignalR();
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
             // services.AddSingleton<WeatherForecastService>();
@@ -33,12 +36,12 @@ namespace blazor2
             // DI httpclient
             services.AddHttpClient();
 
-            services.AddHttpClient("ShoeShopApi", client=>
+            services.AddHttpClient("ShoeShopApi", client =>
             {
                 client.BaseAddress = new Uri("https://apistore.cybersoft.edu.vn/");
             });
 
-            services.AddHttpClient("MovieApi", client=>
+            services.AddHttpClient("MovieApi", client =>
             {
                 client.BaseAddress = new Uri("https://movienew.cybersoft.edu.vn/");
             });
@@ -53,6 +56,9 @@ namespace blazor2
 
             // đăng ký dịch vụ ShoeShopStateService
             services.AddSingleton<ShoeShopStateService>();
+            
+            // đăng ký dịch vụ RoomChatService
+            services.AddSingleton<RoomChatService>();
 
         }
 
@@ -78,6 +84,11 @@ namespace blazor2
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapBlazorHub();
+
+                // map Hub nào vào đây
+                // vì đang để hub chung source nên "/roomHub" => url hiện tại/roomHub
+                //Nếu hub ở 1 server khác thì  truywwfn 1 url khác vào ""
+                endpoints.MapHub<RoomHub>("/roomHub");
                 endpoints.MapFallbackToPage("/_Host");
             });
         }

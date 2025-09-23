@@ -4,6 +4,9 @@
 
 <div class="container">
     <h3 class="mb-4">Shoe Shop</h3>
+    <div class="text-end">
+        <a href="/shoeshop/add" class="btn btn-primary mb-3">Add New Shoe</a>
+    </div>
     <div class="row g-4">
         @if (_shoeShopStateService.lsProduct != null)
         {
@@ -35,8 +38,8 @@
                                 <button class="btn btn-danger mt-auto w-100 fw-bold"
                                     @onclick="() => _shoeShopStateService.DeleteShoe(shoe.id)">Delete</button>
                                     @* sửa *@
-                                <button class="btn btn-primary mt-auto w-100 fw-bold">Edit   
-                                </button>
+                                <a class="btn btn-primary mt-auto w-100 fw-bold" href="/shoeshop/edit/@shoe.id">Edit   
+                                </a>
                             </div>
 
                         </div>

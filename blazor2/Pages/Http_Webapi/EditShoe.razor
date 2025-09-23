@@ -1,0 +1,84 @@
+@page "/shoeshop/edit/{id:int}"
+@inject ShoeShopStateService _shoeShopStateService
+
+<div class="container">
+    <EditForm Model="newShoe" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <InputText id="name" class="form-control" @bind-Value="newShoe.name" />
+            <ValidationMessage For="@(() => newShoe.name)" />
+        </div>
+
+        <div class="mb-3">
+            <label for="price" class="form-label">Price</label>
+            <InputNumber id="price" class="form-control" @bind-Value="newShoe.price" />
+            <ValidationMessage For="@(() => newShoe.price)" />
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <InputTextArea id="description" class="form-control" @bind-Value="newShoe.description" />
+            <ValidationMessage For="@(() => newShoe.description)" />
+        </div>
+
+        <div class="mb-3">
+            <label for="shortDescription" class="form-label">Short Description</label>
+            <InputTextArea id="shortDescription" class="form-control" @bind-Value="newShoe.shortDescription" />
+            <ValidationMessage For="@(() => newShoe.shortDescription)" />
+        </div>
+
+        <div class="mb-3">
+            <label for="quantity" class="form-label">Quantity</label>
+            <InputNumber id="quantity" class="form-control" @bind-Value="newShoe.quantity" />
+            <ValidationMessage For="@(() => newShoe.quantity)" />
+        </div>
+
+        <div class="mb-3">
+            <label for="imgLink" class="form-label">Image Link</label>
+            <InputText id="imgLink" class="form-control" @bind-Value="newShoe.imgLink" />
+            <ValidationMessage For="@(() => newShoe.imgLink)" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Shoe</button>
+        @if (!string.IsNullOrEmpty(mess))
+        {
+            <div class="alert alert-info mt-3" role="alert">
+                @mess
+            </div>
+        }
+    </EditForm>
+    
+
+</div>
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    // llấy chi tiết sản phẩm bằng id
+    protected override async Task OnParametersSetAsync()
+    {
+
+        // lấy chi tiết sp
+        await _shoeShopStateService.GetProductById(id);
+        Console.WriteLine("detail: " + _shoeShopStateService.productDetail.name);
+        newShoe.name = _shoeShopStateService.productDetail.name;
+        newShoe.price = _shoeShopStateService.productDetail.price;
+        newShoe.description = _shoeShopStateService.productDetail.description;
+        newShoe.shortDescription = _shoeShopStateService.productDetail.shortDescription;
+        newShoe.quantity = _shoeShopStateService.productDetail.quantity;
+        newShoe.imgLink = _shoeShopStateService.productDetail.image;
+        @* newShoe.id = _shoeShopStateService.productDetail.id; *@
+    }
+
+    private AddShoeApiVM newShoe = new AddShoeApiVM();
+    private string mess;
+    private async Task HandleValidSubmit()
+    {
+        mess = await _shoeShopStateService.UpdateShoe(newShoe);
+        // Reset the form after submission
+        newShoe = new AddShoeApiVM();
+    }
+}
