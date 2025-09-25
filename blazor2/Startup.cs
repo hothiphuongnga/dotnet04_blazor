@@ -25,6 +25,19 @@ namespace blazor2
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            // cấu hình cors
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins("http://127.0.0.1:5500") // Thay đổi thành các nguồn bạn muốn cho phép
+                           .AllowAnyHeader()
+                           .AllowAnyMethod()
+                           .AllowCredentials(); // Cho phép gửi cookie và thông tin xác thực
+                });
+            });
+
+
             // thên singalR
             services.AddSignalR();
 
@@ -80,6 +93,8 @@ namespace blazor2
             app.UseStaticFiles();
 
             app.UseRouting();
+            // sử dụng cors
+            app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {

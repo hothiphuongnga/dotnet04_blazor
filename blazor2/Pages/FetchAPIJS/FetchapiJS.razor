@@ -1,0 +1,36 @@
+@page "/fetchapiJS"
+@using System.Text.Json
+@inject IJSRuntime js
+
+<h3>Fetch API JS</h3>
+
+<div id="data_api">
+
+</div>
+    @foreach(var p in products)
+    {
+        <div class="card" style="width: 18rem;">
+           @p.name
+        </div>
+    }
+
+@code{
+public List<ProductApiVM2> products = new List<ProductApiVM2>();
+// sau khi render giao diện vì 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+            @* await js.InvokeVoidAsync("fetchdata"); *@
+
+            // InvokeAsync<T> : gọi hàm trả về dữ liệu động
+            //InvoceVoidAsync : gọi hàm không trả về dữ liệu
+            var res = await js.InvokeAsync<dynamic>("fetchdata");
+            Console.WriteLine(res);
+
+
+            // chuyển đổi dữ liệu từ dynamic sang List<ProductApiVM>
+            var json = JsonSerializer.Serialize(res);
+            products = JsonSerializer.Deserialize<List<ProductApiVM2>>(json);
+            StateHasChanged(); // cập nhật giao diện
+        
+    }
+}
