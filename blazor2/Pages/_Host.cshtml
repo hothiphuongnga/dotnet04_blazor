@@ -26,13 +26,14 @@
     <link href="css/site.css" rel="stylesheet" />
     @* blazỏ2.styles.css là file css được biên dịch ra từ css component , cần gắn link này thì mới áp dụng css ở file component được . VD Login.razor.css *@
     <link rel="stylesheet" href="blazor2.styles.css">
-    <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+    <component type="typeof(HeadOutlet)" render-mode="Server" />
     @* để đổi tên title cho từng route riêng *@
+    @*  chuyển serverprerender -> server blazor không load lại html tĩnh nữa *@
 </head>
 
 <body>
     <app>
-        <component type="typeof(App)" render-mode="ServerPrerendered" />
+        <component type="typeof(App)" render-mode="Server" />
     </app>
 
     <div id="blazor-error-ui">

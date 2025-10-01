@@ -1,0 +1,52 @@
+@page "/admin-auth"
+@* @attribute [Authorize(Roles = "Admin")] *@
+@* 1. @attribute [Authorize(Roles = "Admin")]
+
+Đây là attribute ở cấp trang (component).
+
+Khi Blazor Router load page, nó sẽ check role trước khi render.
+
+Nếu user không có role "Admin" thì:
+
+Trang không được render.
+
+Router trả về trạng thái NotAuthorized (hiển thị từ AuthorizeRouteView trong App.razor).
+
+👉 Dùng khi bạn muốn chặn cứng truy cập vào một page.
+Ví dụ: /admin-auth chỉ cho Admin vào, User thường không bao giờ vào được. *@
+@using Microsoft.AspNetCore.Components.Authorization
+@* Nó cho phép bạn dùng:
+
+AuthenticationStateProvider
+
+AuthorizeView
+
+AuthenticationState
+
+các API authorization khác…
+
+Nó không chặn quyền truy cập, chỉ mở sẵn namespace để bạn gọi class/razor component mà thôi.
+
+👉 Nếu bạn không import dòng này, thì viết <AuthorizeView> hay AuthenticationStateProvider sẽ bị báo lỗi không nhận diện được tên. *@
+
+@inject AuthenticationStateProvider AuthProvider
+
+<AuthorizeView Roles="Admin" Context="authContext">
+    <Authorized>
+        <div class="container mt-3">
+            <h3>Admin Auth</h3>
+            <p>This is a protected page. You must be logged in to view this content.</p>
+            <p>Dành cho người dùng đã đăng nhập (Admin)</p>
+            <p>Welcome, @authContext.User.Identity.Name!</p>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div class="container mt-3">
+            <div class="alert alert-warning">
+                <h4>Access Denied</h4>
+                <p>You need admin privileges to access this page.</p>
+                <a href="/login" class="btn btn-primary">Login</a>
+            </div>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>

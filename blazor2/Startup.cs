@@ -1,14 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 
 namespace blazor2
 {
@@ -25,6 +30,43 @@ namespace blazor2
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+
+            // 1. Đọc key, issuer và audience từ appsettings.json
+            var key = Configuration["Jwt:Key"];           // Khóa bí mật để ký token
+            var issuer = Configuration["Jwt:Issuer"];     // Issuer (bên phát hành token)
+            var audience = Configuration["Jwt:Audience"]; // Audience (người nhận token)
+            // 2. Cấu hình Authentication sử dụng JWT Bearer
+            services.AddAuthentication("Bearer").AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+
+                    ValidateIssuerSigningKey = true, // Xác thực key bí mật của token
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
+                    ValidateIssuer = true,// Xác thực Issuer 
+                    ValidIssuer = issuer, // Phải khớp với Issuer trong token
+                    ValidateAudience = true,    // Xác thực Audience
+                    ValidAudience = audience, // Phải khớp với Audience trong token
+                    ValidateLifetime = true, // Xác thực thời gian hết hạn của token
+                    ClockSkew = TimeSpan.Zero, // Bỏ qua độ trễ thời gian giữa server và client (ngăn lỗi thời gian)
+                    RoleClaimType = ClaimTypes.Role, // Ánh xạ claim role,
+                    NameClaimType =ClaimTypes.Name // Ánh xạ claim name,
+                };
+            });
+            // 3. Cấu hình Authorization (Phân quyền theo Role)
+            services.AddAuthorization(options =>
+            {
+                // Chính sách chỉ cho phép Admin truy cập
+                options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+                // Chính sách chỉ cho phép User truy cập
+                options.AddPolicy("UserOnly", policy => policy.RequireRole("User"));
+            });
+
+
+
+
+
+
             // cấu hình cors
             services.AddCors(options =>
             {
@@ -69,9 +111,21 @@ namespace blazor2
 
             // đăng ký dịch vụ ShoeShopStateService
             services.AddSingleton<ShoeShopStateService>();
-            
+
             // đăng ký dịch vụ RoomChatService
             services.AddSingleton<RoomChatService>();
+
+            // đăng ký dịch vụ JwtService
+            services.AddSingleton<JwtService>(); // tạo ra token xác thực người dùng
+
+            // Đăng ký  Blazor.LocalStorage
+            services.AddBlazoredLocalStorage();
+
+            // Đăng ký JwtStateService để quản lý trạng thái xác thực
+            services.AddScoped<JwtStateService>();
+
+            // Cấu hình để sử dụng JwtStateService cho AuthenticationStateProvider
+            services.AddScoped<AuthenticationStateProvider, JwtStateService>();
 
         }
 
@@ -88,13 +142,18 @@ namespace blazor2
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-// tuwj ddoongj chuyển về https mmặc dù gọi http 
+
+            // Bật xác thực , phan quyền
+
+            // tuwj ddoongj chuyển về https mmặc dù gọi http 
             // app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
             // sử dụng cors
             app.UseCors();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

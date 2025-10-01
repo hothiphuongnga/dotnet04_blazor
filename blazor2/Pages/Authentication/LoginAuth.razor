@@ -1,0 +1,85 @@
+@page "/login-auth"
+@using Blazored.LocalStorage
+@inject JwtService _jwtService
+@inject ILocalStorageService _localStorage
+@inject NavigationManager NavigationManager
+@inject JwtStateService JwtStateService
+@* form editform  có 2 field là user password *@
+@inject IJSRuntime js
+<div class="container">
+    <h3 style="text-align:center" class="text-center">Login Auth</h3>
+    <EditForm Model='userLoginVM' OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <div class="mb-3">
+            <label for="userName" class="form-label">User Name</label>
+            <InputText id="userName" class="form-control" @bind-Value="userLoginVM.UserName" />
+            <ValidationMessage For="@(() => userLoginVM.UserName)" />
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <InputText id="password" type="password" class="form-control" @bind-Value="userLoginVM.Password" />
+            <ValidationMessage For="@(() => userLoginVM.Password)" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Login</button>
+    </EditForm>
+
+    <div class="mt-3">
+        @if (!string.IsNullOrEmpty(message))
+        {
+            <div class="alert alert-info" role="alert">
+                @message
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+@code {
+    public UserLoginVM userLoginVM = new UserLoginVM();
+    public string message = "";
+    private string token = "";
+    async Task HandleValidSubmit()
+    {
+
+        // đăng nhập thành công tạo token
+        //username = "admin" password = "123" => role = "admin"
+        //username = "phuongnga" password = "123" => role = "user"
+        //-> lưu token vào local storage
+        if (userLoginVM.UserName == "admin" && userLoginVM.Password == "123")
+        {
+            message = "[ADMIN] Đăng nhập thành công";
+            // tạo token
+            token = _jwtService.GenerateToken(userLoginVM.UserName, "Admin");
+        }
+        else if (userLoginVM.UserName == "phuongnga" && userLoginVM.Password == "123")
+        {
+            message = "[USER] Đăng nhập thành công";
+            // tạo token
+            token = _jwtService.GenerateToken(userLoginVM.UserName, "User");
+        }
+
+        @* Console.WriteLine("Token: " + token);
+        // lưu token vào local storage
+       // await js.InvokeVoidAsync("localStorage.setItem", "c_user", token);
+        //await _localStorage.SetItemAsStringAsync("xs",token);
+        // thông báo cho JwtStateService biết trạng thái đã đăng nhập
+        @* await js.InvokeVoidAsync("location.reload"); *@
+        // redirect qua /admin-auth
+        if (!string.IsNullOrEmpty(token))
+{
+    await JwtStateService.MarkUserAsAuthenticated(token);
+
+    // Bây giờ Blazor sẽ tự cập nhật trạng thái Auth, không cần F5
+    NavigationManager.NavigateTo("/admin-auth", forceLoad: false);
+    StateHasChanged();
+}
+        
+
+
+
+    }
+}

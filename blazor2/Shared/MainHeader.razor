@@ -137,6 +137,41 @@
                 </li>
             </ul>
         </li>
+        <li class="nav-link dropdown">
+            <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuAuth" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Auth
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuAuth">
+                <li class="nav-item">
+                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link"
+                        href="login-auth">
+                        Login Auth
+                    </NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link"
+                        href="admin-auth">
+                     admin Auth
+                    </NavLink>
+                </li><li class="nav-item">
+                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link"
+                        href="profile-auth">
+                        profile Auth
+                    </NavLink>
+                </li>
+            </ul>
+        </li>
+
+        @* authou view *@
+        <AuthorizeView>
+    <Authorized Context="ctx">
+        <span>Xin chào @ctx.User.Identity.Name</span>
+    </Authorized>
+    <NotAuthorized>
+        <a href="/login-auth">Đăng nhập</a>
+    </NotAuthorized>
+</AuthorizeView>
     </ul>
 </header>
 <section>
