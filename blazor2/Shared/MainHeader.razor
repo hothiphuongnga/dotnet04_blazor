@@ -46,13 +46,15 @@
                     </NavLink>
                 </li>
                 <li class="nav-item">
-                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link" href="/demo-render?content=hi">
+                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link"
+                        href="/demo-render?content=hi">
                         Lifecycle-
                         render
                     </NavLink>
                 </li>
                 <li class="nav-item">
-                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link" href="/demo-render?content=hello">
+                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link"
+                        href="/demo-render?content=hello">
                         Lifecycle-
                         render v2
                     </NavLink>
@@ -74,64 +76,58 @@
         </li>
 
 
-         <li class="nav-link dropdown">
+        <li class="nav-link dropdown">
             <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown"
                 aria-expanded="false">
                 State
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
                 <li class="nav-item">
-                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link"
-                        href="couter">
+                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link" href="couter">
                         Couter
                     </NavLink>
                 </li>
                 <li class="nav-item">
-                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link"
-                        href="couter_b">
+                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link" href="couter_b">
                         Couter B
                     </NavLink>
                 </li>
                 <li class="nav-item">
-                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link"
-                        href="burger">
+                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link" href="burger">
                         Burger
                     </NavLink>
                 </li>
                 <li class="nav-item">
-                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link"
-                        href="crypto">
+                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link" href="crypto">
                         crypto
                     </NavLink>
                 </li>
-               
+
             </ul>
         </li>
-         <li class="nav-link dropdown">
+        <li class="nav-link dropdown">
             <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown"
                 aria-expanded="false">
                 Http Webapi
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
                 <li class="nav-item">
-                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link"
-                        href="shoeshop">
+                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link" href="shoeshop">
                         shoeshop
                     </NavLink>
                 </li>
-                
-               
+
+
             </ul>
         </li>
-         <li class="nav-link dropdown">
+        <li class="nav-link dropdown">
             <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown"
                 aria-expanded="false">
                 SignalR
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
                 <li class="nav-item">
-                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link"
-                        href="room_chat">
+                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link" href="room_chat">
                         Room chat
                     </NavLink>
                 </li>
@@ -144,19 +140,17 @@
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuAuth">
                 <li class="nav-item">
-                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link"
-                        href="login-auth">
+                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link" href="login-auth">
                         Login Auth
                     </NavLink>
                 </li>
                 <li class="nav-item">
-                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link"
-                        href="admin-auth">
-                     admin Auth
+                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link" href="admin-auth">
+                        admin Auth
                     </NavLink>
-                </li><li class="nav-item">
-                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link"
-                        href="profile-auth">
+                </li>
+                <li class="nav-item">
+                    <NavLink activeClass="active" Match="NavLinkMatch.Prefix" class="nav-link" href="profile-auth">
                         profile Auth
                     </NavLink>
                 </li>
@@ -165,13 +159,13 @@
 
         @* authou view *@
         <AuthorizeView>
-    <Authorized Context="ctx">
-        <span>Xin chào @ctx.User.Identity.Name</span>
-    </Authorized>
-    <NotAuthorized>
-        <a href="/login-auth">Đăng nhập</a>
-    </NotAuthorized>
-</AuthorizeView>
+            <Authorized Context="ctx">
+                <span>Xin chào @ctx.User.Identity.Name</span>
+            </Authorized>
+            <NotAuthorized>
+                <a href="/login-auth">Đăng nhập</a>
+            </NotAuthorized>
+        </AuthorizeView>
     </ul>
 </header>
 <section>

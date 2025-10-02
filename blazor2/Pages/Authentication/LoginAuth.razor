@@ -74,7 +74,7 @@
     await JwtStateService.MarkUserAsAuthenticated(token);
 
     // Bây giờ Blazor sẽ tự cập nhật trạng thái Auth, không cần F5
-    NavigationManager.NavigateTo("/admin-auth", forceLoad: false);
+    NavigationManager.NavigateTo("/admin-auth", forceLoad: true);
     StateHasChanged();
 }
         

@@ -1,6 +1,14 @@
 @page "/profile-auth"
 <div class="container">
-    <h3 style="text-align:center" class="text-center">Profile Auth</h3>
-    <p>Trang này chỉ những người đã đăng nhập mới xem được</p>
-    
+    <AuthorizeView>
+    @*  có auth thì mới xem được *@
+        <Authorized>
+            <h3 style="text-align:center" class="text-center">Profile Auth</h3>
+            <p>Trang này chỉ những người đã đăng nhập mới xem được</p>
+        </Authorized>
+        <NotAuthorized>
+            Chưa đăng nhập
+        </NotAuthorized>
+    </AuthorizeView>
+
 </div>

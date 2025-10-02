@@ -1,12 +1,6 @@
 ﻿<CascadingAuthenticationState>
     <Router AppAssembly="@typeof(Program).Assembly">
         <Found Context="routeData">
-            @* <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" /> *@
-            @* ở  midlewware trong stảtup mình return về chưa xác thực *@
-            @* <AuthorizeRouteView  RouteData="@routeData" DefaultLayout="@typeof(MainHeader)" /> *@
-            @* <NotAuthorized>
-            <p>Bạn chưa đăng nhập</p>
-        </NotAuthorized> *@
             <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainHeader)">
                 <NotAuthorized>
                     <p>Bạn chưa được phép truy cập.</p>
